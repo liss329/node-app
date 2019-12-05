@@ -1,13 +1,14 @@
 const http = require("http");
+const fs = require("fs");
 
 let server = http.createServer(
     (request, response) => {
-        response.setHeader("content-Type","text/html");
-        response.write("<!DOCTYPE html><html lang='ja'>");
-        response.write("<head><title>title</title></head>")
-        response.write("<body><h1>Hello</h1><p>Welcome to Node.js!</p>");
-        response.write("</body><html>");
-        response.end()
+        fs.readFile("./index.html", "utf-8", 
+        (error, data) => {
+            response.writeHead(200, {"Content-Type": "text/html"});
+            response.write(data);
+            response.end();
+        });
     }
 );
 
