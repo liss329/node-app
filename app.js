@@ -11,8 +11,9 @@ console.log("Server start");
 function getFromClient(req, res){
     fs.readFile("./index.html", "utf-8", 
         (error, data) => {
+            let content = data.replace(/dummy_title/g, "タイトルです").replace(/dummy_content/g, "コンテンツです");
             res.writeHead(200, {"Content-Type": "text/html"});
-            res.write(data);
+            res.write(content);
             res.end();            
         }
     );
