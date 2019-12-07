@@ -21,10 +21,7 @@
         </form>
         <p><table>
             <% for(let key in data){ %>
-            <tr>
-                <th><%= key %></th>
-                <td><%= data[key] %></td>
-            </tr>
+                <%- include("data_item", {key:key, val:[data[key]]}) %>
             <% } %>
         </table></p>
     </div>
