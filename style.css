@@ -16,6 +16,17 @@ p{
     margin: 0px;
 }
 
+table{
+    margin: 20px;
+}
+
+table tr th{
+    background-color: #999;
+    color: #fff;
+    text-align: left;
+    padding: 3px 10px;
+}
+
 table tr td{
     background-color: rgb(197, 194, 194);
     color:#666;
