@@ -16,12 +16,19 @@ console.log("Server start");
  * サーバオブジェクト作成時処理
  */
 function getFromClient(req, res){
-    let url_parts = url.parse(req.url);
+    let url_parts = url.parse(req.url, true);
     switch(url_parts.pathname){
         case "/":
+            let index_obj_content = "これはIndexページです";
+            let query = url_parts.query;
+
+            if(!query.msg != undefined){
+                index_obj_content += `msg：${ query.msg}`;
+            }
+
             let index_content = ejs.render(index_page, {
                 title: "Indexページ",
-                content:"これはテンプレートを使ったサンプルページです"
+                content:index_obj_content
             });
             res.writeHead(200, {"Content-Type": "text/html"});
             res.write(index_content);
@@ -46,7 +53,7 @@ function getFromClient(req, res){
 
         default:
             res.writeHead(200, {"Content-Type": "text/plain"});
-            res.end();
+            res.end("no page");
             break;
 
     }
