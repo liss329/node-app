@@ -40,6 +40,13 @@ function getFromClient(req, res){
     }
 }
 
+const data = {
+    "Taro": "09-999-999",
+    "Hanako": "08-888-888",
+    "Sachiko": "07-777-777",
+    "Ichiro": "06-666-666"
+}
+
 /**
  * indexページのアクセス処理
  */
@@ -53,7 +60,8 @@ function response_index(req, res, url_parts){
 
     let index_content = ejs.render(index_page, {
         title: "Indexページ",
-        content:msg
+        content:msg,
+        data:data
     });
 
     res.writeHead(200, {"Content-Type": "text/html"});
