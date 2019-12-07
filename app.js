@@ -47,6 +47,13 @@ const data = {
     "Ichiro": "06-666-666"
 }
 
+const data2 = {
+    "Taro": ["taro@yamada", "09-999-999", "Tokyo"],
+    "Hanako": ["hanako@flower", "08-888-888", "Yokohama"],
+    "Sachiko": ["sachi@happy", "07-777-777", "Nagoya"],
+    "Ichiro":["ichi@baseball", "06-666-666", "USA"]
+}
+
 /**
  * indexページのアクセス処理
  */
@@ -92,7 +99,9 @@ function response_other(req, res){
 
             let other_content = ejs.render(other_page, {
                 title: "Other",
-                content:msg
+                content:msg,
+                data: data2,
+                filename: "data_item"
             });
             
             res.writeHead(200, {"Content-Type": "text/html"});
