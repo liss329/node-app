@@ -13,17 +13,30 @@
     </head>
     <div role="main">
         <p><%=content %></p>
+        <p><table style="width: 400px;">
+            <tr><td>伝言です</td></tr>
+            <tr><td><%= data.msg %></td></tr>
+        </table></p>
+        <p>
+            <form method="post" action="/">
+                MESSAGE <input type="text" name="msg">
+                <input type="submit" value="送信">
+            </form>
+        </p>
+
         <form method="post" action="/other">
             <p>
                 <input type="text" name="msg">
                 <input type="submit" value="Click">
             </p>
         </form>
+
         <p><table>
             <% for(let key in data){ %>
                 <%- include("data_item", {key:key, val:[data[key]]}) %>
             <% } %>
         </table></p>
+
     </div>
 </body>
 </html>

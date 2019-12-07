@@ -40,12 +40,7 @@ function getFromClient(req, res){
     }
 }
 
-const data = {
-    "Taro": "09-999-999",
-    "Hanako": "08-888-888",
-    "Sachiko": "07-777-777",
-    "Ichiro": "06-666-666"
-}
+const data = {msg: "no message"};
 
 const data2 = {
     "Taro": ["taro@yamada", "09-999-999", "Tokyo"],
@@ -58,23 +53,23 @@ const data2 = {
  * indexページのアクセス処理
  */
 function response_index(req, res, url_parts){
-    let msg = "これはIndexページです";
-    let query = url_parts.query;
 
-    if(!query.msg != undefined){
-        msg += `msg：${ query.msg}`;
+    if(req.method == "POST"){
+        let body = "";
+
+        req.on("data", (data) => {
+            body += data;
+        });
+
+        req.on("end", () => {
+            // POSTによるアクセス時は送信されたmsgに応じて、グローバル変数dataのmsgプロパティを書き換える
+            data.msg = qs.parse(body).msg;
+            write_index(req, res);
+        });
+
+    }else{
+        write_index(req, res);
     }
-
-    let index_content = ejs.render(index_page, {
-        title: "Indexページ",
-        content:msg,
-        data:data,
-        filename: "data_item"
-    });
-
-    res.writeHead(200, {"Content-Type": "text/html"});
-    res.write(index_content);
-    res.end();
 }
 
 /**
@@ -119,4 +114,21 @@ function response_other(req, res){
         res.write(other_content);
         res.end();
     }
+}
+
+/**
+ * indexページの表示
+ */
+function write_index(req, res){ 
+    let msg = "※伝言を表示します";
+    let index_content = ejs.render(index_page, {
+        title: "Indexページ",
+        content: msg,
+        data: data,
+        filename:"data_item"
+    });
+
+    res.writeHead(200, {"Content-Type": "text/html"});
+    res.write(index_content);
+    res.end();
 }
