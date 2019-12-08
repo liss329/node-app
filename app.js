@@ -64,6 +64,10 @@ function response_index(req, res, url_parts){
         req.on("end", () => {
             // POSTによるアクセス時は送信されたmsgに応じて、グローバル変数dataのmsgプロパティを書き換える
             data.msg = qs.parse(body).msg;
+
+            //クッキーの保存
+            setCookie("msg", data.msg, res);
+
             write_index(req, res);
         });
 
@@ -121,14 +125,39 @@ function response_other(req, res){
  */
 function write_index(req, res){ 
     let msg = "※伝言を表示します";
+    let cookie_data = getCookie("msg", req);
     let index_content = ejs.render(index_page, {
-        title: "Indexページ",
+        title: "Index",
         content: msg,
         data: data,
-        filename:"data_item"
+        cookie_data: cookie_data
     });
 
     res.writeHead(200, {"Content-Type": "text/html"});
     res.write(index_content);
     res.end();
+}
+
+/**
+ * クッキーの値を設定
+ */
+function setCookie(key, value, res){
+    let cookie = escape(value);
+    res.setHeader("Set-Cookie", [key + "=" + cookie]);
+}
+
+/**
+ * クッキーの値を取得
+ */
+function getCookie(key, req){
+    let cookie_data = req.headers.cookie != undefined ?
+        req.headers.cookie : "";
+    let data = cookie_data.split(";");
+    for(let i in data){
+        if(data[i].trim().startsWith(key + "=")){
+            let result = data[i].trim().substring(key.length + 1);
+            return unescape(result);
+        }
+    }
+    return "";
 }
