@@ -23,20 +23,6 @@
                 <input type="submit" value="送信">
             </form>
         </p>
-
-        <form method="post" action="/other">
-            <p>
-                <input type="text" name="msg">
-                <input type="submit" value="Click">
-            </p>
-        </form>
-
-        <p><table>
-            <% for(let key in data){ %>
-                <%- include("data_item", {key:key, val:[data[key]]}) %>
-            <% } %>
-        </table></p>
-
     </div>
 </body>
 </html>
